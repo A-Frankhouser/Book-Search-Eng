@@ -18,7 +18,9 @@ const server = new ApolloSever({
   typeDefs,
   resolvers,
   context: authMiddleware
-})
+});
+
+server.applyMiddleware({ app })
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
