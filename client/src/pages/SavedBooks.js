@@ -6,7 +6,6 @@ import {
   Row,
   Col
 } from 'react-bootstrap';
-
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { GET_ME } from '../utils/queries';
@@ -27,22 +26,22 @@ const SavedBooks = () => {
     }
 
     try {
-      await deleteBook({
-        variables: { bookId: bookId },
-        update: (cache) => {
-          const data = cache.readQuery({ query: GET_ME });
-          const userDataCache = data.me;
-          const savedBooksCache = userDataCache.savedBooks;
-          const updatedBookCache = savedBooksCache.filter(
-            (book) => book.bookId !== bookId
-          );
-          data.me.savedBooks = updatedBookCache;
-          cache.writeQuery({
-            query: GET_ME,
-            data: { data: { ...data.me.savedBooks } },
-          });
-        },
-      });
+await deleteBook({
+  variables: { bookId: bookId },
+  update: (cache) => {
+    const data = cache.readQuery({ query: GET_ME });
+    const userDataCache = data.me;
+    const savedBooksCache = userDataCache.savedBooks;
+    const updatedBookCache = savedBooksCache.filter(
+      (book) => book.bookId !== bookId
+    );
+    data.me.savedBooks = updatedBookCache;
+    cache.writeQuery({
+      query: GET_ME,
+      data: { data: { ...data.me.savedBooks } },
+    });
+  },
+});
 
 
       // upon success, remove book's id from localStorage
