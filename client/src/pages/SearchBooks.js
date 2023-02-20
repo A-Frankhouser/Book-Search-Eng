@@ -81,12 +81,12 @@ const SearchBooks = () => {
 
     try {
       await saveBook({
-        variables: { book: bookToSave },
+        variables: {book: bookToSave},
         update: cache => {
-          const { me } = cache.readQuery({ query: GET_ME });
+          const {me} = cache.readQuery({ query: GET_ME });
           cache.writeQuery({
             query: GET_ME,
-            data: { me: { ...me, savedBooks: [...me.savedBooks, bookToSave] } },
+            data: {me: {...me, savedBooks: [...me.savedBooks, bookToSave] } },
           });
         },
       });
