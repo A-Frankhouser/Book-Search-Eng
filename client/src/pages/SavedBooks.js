@@ -4,7 +4,8 @@ import {
   Card,
   Button,
   Row,
-  Col
+  Col,
+  Jumbotron
 } from 'react-bootstrap';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
@@ -26,19 +27,17 @@ const SavedBooks = () => {
     }
 
     try {
-await deleteBook({
-  variables: { bookId: bookId },
-  update: (cache) => {
-    const data = cache.readQuery({ query: GET_ME });
-    const userDataCache = data.me;
-    const savedBooksCache = userDataCache.savedBooks;
-    const updatedBookCache = savedBooksCache.filter(
-      (book) => book.bookId !== bookId
+      await deleteBook({
+        variables: { bookId: bookId },
+        update: cache => {
+          const data = cache.readQuery({ query: GET_ME });
+          const userDataCache = data.me;
+          const savedBooksCache = userDataCache.savedBooks;
+          const updatedBookCache = savedBooksCache.filter(
+            (book) => book.bookId !== bookId
     );
     data.me.savedBooks = updatedBookCache;
-    cache.writeQuery({
-      query: GET_ME,
-      data: { data: { ...data.me.savedBooks } },
+    cache.writeQuery({ query: GET_ME, data: {data: {...data.me.savedBooks} },
     });
   },
 });
@@ -58,11 +57,11 @@ await deleteBook({
 
   return (
     <>
-      <div fluid className='text-light bg-dark p-5'>
+      <Jumbotron fluid className='text-light bg-dark p-5'>
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
-      </div>
+      </Jumbotron>
       <Container>
         <h2 className='pt-5'>
           {userData.savedBooks.length
