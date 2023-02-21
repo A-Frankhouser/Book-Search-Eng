@@ -15,7 +15,7 @@ import { useMutation, useQuery } from '@apollo/client';
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
-  const [deleteBook] = useMutation(REMOVE_BOOK);
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
   const userData = data?.me || {};
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
@@ -27,21 +27,14 @@ const SavedBooks = () => {
     }
 
     try {
-      await deleteBook({
-        variables: { bookId: bookId },
-        update: cache => {
-          const data = cache.readQuery({ query: GET_ME });
-          const userDataCache = data.me;
-          const savedBooksCache = userDataCache.savedBooks;
-          const updatedBookCache = savedBooksCache.filter(
-            (book) => book.bookId !== bookId
-    );
-    data.me.savedBooks = updatedBookCache;
-    cache.writeQuery({ query: GET_ME, data: {data: {...data.me.savedBooks} },
-    });
-  },
-});
+      const { data } = await removeBook({
+        variables: { bookId }
+      });
 
+    if (error) {
+      console.log(data)
+      throw new Error('something went wrong')
+    }
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);

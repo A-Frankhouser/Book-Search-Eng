@@ -40,8 +40,8 @@ function App() {
         <>
           <Navbar />
           <Routes>
-            <Route path="/" element={ <SearchBooks />} />
-            <Route path="/saved" element={ <SavedBooks />} />
+            <Route path="/" element={<SearchBooks/>} />
+            <Route path="/saved" element={<SavedBooks/>} />
             <Route render={() => <h1 className="display-2">Wrong page!</h1>} />
           </Routes>
         </>
