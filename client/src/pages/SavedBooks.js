@@ -5,7 +5,8 @@ import {
   Button,
   Row,
   Col,
-  Jumbotron
+  Jumbotron,
+  CardColumns
 } from 'react-bootstrap';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
@@ -14,8 +15,8 @@ import { REMOVE_BOOK } from '../utils/mutations';
 import { useMutation, useQuery } from '@apollo/client';
 
 const SavedBooks = () => {
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);  
   const { loading, data } = useQuery(GET_ME);
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
   const userData = data?.me || {};
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
@@ -62,9 +63,9 @@ const SavedBooks = () => {
             : 'You have no saved books!'}
         </h2>
         <Row>
+          <CardColumns>
           {userData.savedBooks.map((book) => {
             return (
-              <Col md="4">
                 <Card key={book.bookId} border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
@@ -76,9 +77,9 @@ const SavedBooks = () => {
                     </Button>
                   </Card.Body>
                 </Card>
-              </Col>
             );
           })}
+          </CardColumns>
         </Row>
       </Container>
     </>

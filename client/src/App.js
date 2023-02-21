@@ -11,6 +11,7 @@ import {
 
 } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
+import Oops from './pages/Oops';
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -32,6 +33,7 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  // persistedQueries: false
 });
 function App() {
   return (
@@ -42,7 +44,7 @@ function App() {
           <Routes>
             <Route path="/" element={<SearchBooks/>} />
             <Route path="/saved" element={<SavedBooks/>} />
-            <Route render={() => <h1 className="display-2">Wrong page!</h1>} />
+            <Route path='*' element={<Oops/>} />
           </Routes>
         </>
       </Router>
