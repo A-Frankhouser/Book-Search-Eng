@@ -8,9 +8,9 @@ To instal you will need to first clone this repository to you local device. Once
 
 
 ## Links
-GitHub Repository:
+GitHub Repository: https://github.com/A-Frankhouser/Book-Search-Eng
 <br>
-Deployed URL:
+Deployed URL: https://book-search-engine-v1.herokuapp.com/ 
 
 ## Contact Me
 If you have any questions or concerns or would like to collaborate on future projects please feel free to contact me anytime!
